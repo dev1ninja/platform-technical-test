@@ -1,0 +1,20 @@
+{
+  "name": "platform-test",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "repository": "git@gitlab.com:bctcreativelabs/technical-tests/platform-test.git",
+  "author": "BCT",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "echo 'please do \"yarn start\" in each workspace directory'",
+    "start:client": "yarn workspace client start",
+    "start:server": "yarn workspace server start",
+    "prettier:fix": "prettier --write '**/*.{js,md,jsx,json,css,scss,yml,yaml,html}'"
+  },
+  "dependencies": {
+    "prettier": "^2.3.2"
+  }
+}
