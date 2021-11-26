@@ -18,9 +18,9 @@ app.get('/products/', (req, res) => {
     .pipe(parse({delimiter: ';'}))
     .on('data', function(csvrow) {
       console.log(csvrow);
-      csvData.push(csvrow);
+      // csvData.push(csvrow);
       // const options = url.parse(csvrow[2]);
-      // csvData.push({"id": csvrow[0], "name": csvrow[1], "picture": {"url": csvrow[2], "width": "", "height": ""}});
+      csvData.push({"id": csvrow[0], "name": csvrow[1], "picture": {"url": csvrow[2], "width": "", "height": ""}});
       // https.get(options, res => {
       //   const chunks = [];
       //   res.on('data', chunk => {
@@ -33,16 +33,23 @@ app.get('/products/', (req, res) => {
       //   })
       // })
     })
-    .on('end',function() {
+    .on('end', function() {
       //do something with csvData
-      console.log('This is csv Data', csvData);
-      // csvData.shift();
-      
-      res.send(getDetails(csvData));
+      // console.log('This is csv Data', csvData);
+      csvData.shift();
+      res.send(csvData);
+      // const getList = [];
+      // for(let i = 0; i < csvData.length; i++){
+      //   getList.push(getSize(csvData[i]));
+      // }
+      // Promise.all(getList).then(value => {
+      //   console.log('This is the final result: ', value)
+      //   res.send(value);
+      // })
     });
 })
 
-async function getSize(data) {
+function getSize(data) {
   return new Promise((resolve, reject) => {
     try {
       const options = url.parse(data[2]);
@@ -58,18 +65,8 @@ async function getSize(data) {
         })
       }) 
     } catch (error) {
-      resolve(error);
+      resolve('Error', error);
     }
-  })
-}
-
-async function getDetails(data) {
-  const getList = [];
-  for(let i = 0; i < data.length; i++){
-    getList.push(await getSize(data[i]));
-  }
-  return await Promise.all(getList).then(value => {
-    return value;
   })
 }
 
